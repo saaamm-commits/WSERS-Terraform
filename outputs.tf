@@ -10,7 +10,7 @@ output "aws_region" {
 
 output "wsers_dynamodb_table_arn" {
   description = "WSERS DynamoDB table ARN"
-  value       = data.aws_dynamodb_table.wsers.arn
+ value       = aws_dynamodb_table.wsers.arn
 }
 
 output "wsers_cognito_user_pool_id" {
