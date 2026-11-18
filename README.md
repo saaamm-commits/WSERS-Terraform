@@ -6,43 +6,87 @@
 
 
 
-WSERS is a cloud-based Women Safety and Emergency Response System developed using AWS serverless services. It provides user authentication, emergency contact management, safety check-ins and SOS emergency alerts.
+The Women Safety and Emergency Response System (WSERS) is a cloud-based application developed using AWS serverless services. It supports user authentication, emergency contact management, safety check-ins, location capture and SOS emergency alerts.
 
 
 
-This repository contains the Terraform Infrastructure as Code (IaC) project for documenting and automating the AWS infrastructure used by WSERS.
+This repository contains the Terraform Infrastructure as Code (IaC) project and supporting technical documentation for the AWS infrastructure used by WSERS.
 
 
 
-\## 2. AWS Architecture
+\## 2. Project Objectives
 
 
 
-The system uses the following AWS services:
+\- Document the existing AWS infrastructure.
+
+\- Use Terraform to describe and retrieve existing AWS resources.
+
+\- Support infrastructure verification and repeatable configuration checks.
+
+\- Monitor Lambda performance and application activity through Amazon CloudWatch.
+
+\- Maintain version-controlled infrastructure documentation through Git and GitHub.
 
 
 
-\- Amazon Cognito – User authentication and registration.
-
-\- Amazon API Gateway – REST API endpoints.
-
-\- AWS Lambda – Serverless backend processing.
-
-\- Amazon DynamoDB – Emergency contact and alert data storage.
-
-\- Amazon SNS – Emergency notification delivery.
-
-\- Amazon CloudWatch – Logging and monitoring.
+\## 3. AWS Architecture
 
 
 
-\## 3. Application Features
+The WSERS solution uses the following AWS services:
+
+
+
+| AWS Service | Purpose |
+
+|---|---|
+
+| Amazon Cognito | User registration, login and authentication |
+
+| Amazon API Gateway | Provides REST API endpoints |
+
+| AWS Lambda | Executes serverless backend operations |
+
+| Amazon DynamoDB | Stores emergency contacts and alert records |
+
+| Amazon SNS | Sends emergency email notifications |
+
+| Amazon CloudWatch | Provides application logs and performance metrics |
+
+
+
+\### Application workflow
+
+
+
+1\. Users register and log in through Amazon Cognito.
+
+2\. Cognito authentication tokens are used when accessing protected API endpoints.
+
+3\. API Gateway receives requests and invokes the relevant Lambda functions.
+
+4\. Lambda functions process emergency contact and alert operations.
+
+5\. DynamoDB stores application records.
+
+6\. The SOS Lambda publishes emergency notifications through SNS.
+
+7\. CloudWatch collects execution logs and performance metrics.
+
+
+
+Refer to `ARCHITECTURE.md` for the architecture diagram.
+
+
+
+\## 4. Application Features
 
 
 
 \- User registration and login.
 
-\- Secure authentication.
+\- Cognito-based authentication.
 
 \- Emergency contact management.
 
@@ -54,59 +98,111 @@ The system uses the following AWS services:
 
 \- Emergency alert history.
 
-\- Email notifications.
+\- Email notifications through Amazon SNS.
 
 
 
-\## 4. Terraform Project Structure
+\## 5. Terraform Project Structure
 
 
 
-| File | Purpose |
+| File or folder | Purpose |
 
 |---|---|
 
-| provider.tf | AWS provider configuration |
+| `provider.tf` | AWS provider and Terraform configuration |
 
-| variables.tf | Project variables |
+| `variables.tf` | Configurable project variables |
 
-| main.tf | AWS account and API discovery |
+| `main.tf` | AWS account and API Gateway discovery |
 
-| lambda.tf | Existing Lambda function discovery |
+| `lambda.tf` | Lambda function configuration |
 
-| dynamodb.tf | DynamoDB discovery |
+| `dynamodb.tf` | DynamoDB resource configuration or discovery |
 
-| cognito.tf | Cognito discovery |
+| `cognito.tf` | Cognito User Pool discovery |
 
-| sns.tf | SNS discovery |
+| `sns.tf` | SNS topic discovery |
 
-| outputs.tf | Terraform outputs |
+| `outputs.tf` | Terraform output values |
 
-| .gitignore | Excludes sensitive and generated files |
+| `.gitignore` | Excludes generated and local files |
 
+| `ARCHITECTURE.md` | AWS architecture diagram |
 
+| `CLOUDWATCH-MONITORING.md` | CloudWatch monitoring report |
 
-\## 5. Prerequisites
+| `README.md` | Project documentation |
 
-
-
-\- Terraform installed.
-
-\- AWS CLI installed.
-
-\- AWS Academy Learner Lab access.
-
-\- Git installed.
-
-\- GitHub account.
+| `lambda\_packages/` | Local Lambda deployment packages; excluded from Git |
 
 
 
-\## 6. Initialisation and Validation
+\## 6. Prerequisites
 
 
 
-Run the following commands from the project directory:
+The following tools and access are required:
+
+
+
+\- Terraform CLI.
+
+\- AWS CLI.
+
+\- Git.
+
+\- An AWS account or AWS Academy Learner Lab.
+
+\- Access to the AWS region containing WSERS resources.
+
+
+
+The project uses AWS region `us-east-1`.
+
+
+
+\## 7. AWS Credentials Configuration
+
+
+
+AWS Academy Learner Lab credentials are temporary and must be refreshed when the lab session expires.
+
+
+
+Configure the AWS CLI using the temporary credentials supplied by the active lab session. Do not commit access keys, secret keys or session tokens to GitHub.
+
+
+
+Verify the active AWS identity:
+
+
+
+```powershell
+
+aws sts get-caller-identity
+
+```
+
+
+
+\## 8. Terraform Initialisation and Validation
+
+
+
+Open PowerShell in the project directory:
+
+
+
+```powershell
+
+cd C:\\Users\\sayam\\WSERS-Terraform
+
+```
+
+
+
+Initialise Terraform:
 
 
 
@@ -114,9 +210,33 @@ Run the following commands from the project directory:
 
 terraform init
 
+```
+
+
+
+Format the configuration:
+
+
+
+```powershell
+
 terraform fmt
+
+```
+
+
+
+Validate the configuration:
+
+
+
+```powershell
 
 terraform validate
 
-terraform plan
+```
+
+
+
+
 
