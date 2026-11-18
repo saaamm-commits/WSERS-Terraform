@@ -1,5 +1,9 @@
-# Retrieve existing WSERS SNS notification topic
+# Manage the existing WSERS SNS notification topic
 
-data "aws_sns_topic" "wsers_notifications" {
+resource "aws_sns_topic" "wsers_notifications" {
   name = "WSERS-Emergency-Notifications"
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
